@@ -17,8 +17,7 @@ public class MySQLite extends SQLiteOpenHelper {
     //pkt 12
     @Override
     public void onCreate(SQLiteDatabase database) {
-        String DATABASE_CREATE =
-                "create table animals " +
+        String DATABASE_CREATE = "create table animals " +
                         "(_id integer primary key autoincrement," +
                         "gatunek text not null," +
                         "kolor text not null," +
@@ -35,8 +34,7 @@ public class MySQLite extends SQLiteOpenHelper {
 
     //pkt 13
     public void dodaj(Animal zwierz) {
-        SQLiteDatabase db =
-                this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("gatunek", zwierz.getGatunek());
         values.put("kolor", zwierz.getKolor());
@@ -48,17 +46,14 @@ public class MySQLite extends SQLiteOpenHelper {
 
     //pkt 14
     public void usun(String id) {
-        SQLiteDatabase db =
-                this.getWritableDatabase();
-        db.delete("animals", "_id = ?",
-                new String[]{id});
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("animals", "_id = ?", new String[]{id});
         db.close();
     }
 
     //pkt 15
     public int aktualizuj(Animal zwierz) {
-        SQLiteDatabase db =
-                this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("gatunek", zwierz.getGatunek());
         values.put("kolor", zwierz.getKolor());
@@ -73,10 +68,8 @@ public class MySQLite extends SQLiteOpenHelper {
 
     //pkt 16
     public Animal pobierz(int id){
-        SQLiteDatabase db =
-                this.getReadableDatabase();
-        Cursor cursor =
-                db.query("animals", //a. table name
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("animals", //a. table name
                         new String[] { "_id",
                                 "gatunek", "kolor", "wielkosc", "opis" }, // b.column names
                         "_id = ?", // c. selections
@@ -88,8 +81,7 @@ public class MySQLite extends SQLiteOpenHelper {
                         null); // h. limit
         if (cursor != null)
             cursor.moveToFirst();
-        Animal zwierz = new
-                Animal(cursor.getString(1), cursor.getString(2),
+        Animal zwierz = new Animal(cursor.getString(1), cursor.getString(2),
                 cursor.getFloat(3), cursor.getString(4));
 
         zwierz.setId(Integer.parseInt(cursor.getString(0))
@@ -99,8 +91,7 @@ public class MySQLite extends SQLiteOpenHelper {
 
     //pkt 17
     public Cursor lista(){
-        SQLiteDatabase db =
-                this.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("Select * from animals",null);
     }
 
