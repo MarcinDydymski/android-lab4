@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> target;
     private SimpleCursorAdapter adapter;
-    public MySQLite db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        MySQLite db = new MySQLite(getApplicationContext());
 
         String[] values = new String[] {"Pies", "Kot", "Koń", "Gołąb", "Kruk", "Dzik", "Karp",
                 "Osioł", "Chomik", "Mysz", "Jeż", "Karaluch"};
