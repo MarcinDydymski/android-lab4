@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +44,23 @@ public class MainActivity extends AppCompatActivity {
         ListView listview = (ListView) findViewById(R.id.list);
         listview.setAdapter(this.adapter);
 
-        //komentarz
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int pos, long id)
+            {
+                TextView name = (TextView) view.findViewById(android.R.id.text1);
+                Animal zwierz = db.pobierz(Integer.parseInt(name.getText().toString()));
+                Intent intencja = new
+                        Intent(getApplicationContext(),
+                        DodajWpis.class);
+                intencja.putExtra("element", zwierz);
+                startActivityForResult(intencja, 2);
+
+            }
+
+        });
+
+                //komentarz
         //---------------------------------------------------------
         //TODO
         //Kolejny komentarz
@@ -69,10 +88,21 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==1 && resultCode==RESULT_OK)
         {
             Bundle extras = data.getExtras();
-            assert extras != null;
+           //assert extras != null;
             Animal nowy = (Animal)extras.getSerializable("nowy");
-            assert nowy != null;
+            //assert nowy != null;
             this.db.dodaj(nowy);
+            //target.add(nowy);
+            adapter.changeCursor(db.lista());
+            adapter.notifyDataSetChanged();
+        }
+        else if(requestCode==2 && resultCode==RESULT_OK)
+        {
+            Bundle extras = data.getExtras();
+            //assert extras != null;
+            Animal nowy = (Animal) extras.getSerializable("nowy");
+            //assert nowy != null;
+            this.db.aktualizuj(nowy);
             //target.add(nowy);
             adapter.changeCursor(db.lista());
             adapter.notifyDataSetChanged();
